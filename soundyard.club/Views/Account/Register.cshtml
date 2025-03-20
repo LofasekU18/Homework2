@@ -1,6 +1,7 @@
 ﻿@model soundyyard.club.web.Models.RegisterViewModel
 @{
     ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout_not_logged.cshtml";
 }
 
 <main aria-labelledby="title">
@@ -27,18 +28,6 @@
             @Html.LabelFor(m => m.SurName, new { @class = "col-md-2 col-form-label" })
             <div class="col-md-10">
                 @Html.TextBoxFor(m => m.SurName, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="row">
-            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 col-form-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
             </div>
         </div>
         <div class="row">

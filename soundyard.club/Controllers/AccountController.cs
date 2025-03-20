@@ -152,7 +152,7 @@ namespace soundyyard.club.web.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.FirstName + " " + model.SurName, Email = model.Email, FirstName = model.FirstName, SurName = model.SurName };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await UserManager.CreateAsync(user,model.FirstName);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
