@@ -153,7 +153,7 @@ namespace soundyyard.club.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.FirstName + " " + model.SurName, Email = model.Email, FirstName = model.FirstName, SurName = model.SurName };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, SurName = model.SurName };
                 var result = await UserManager.CreateAsync(user, "bypass");
                 if (result.Succeeded)
                 {

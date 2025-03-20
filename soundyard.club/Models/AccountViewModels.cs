@@ -57,10 +57,11 @@ namespace soundyyard.club.web.Models
 
     public class RegisterViewModel
     {
+        [Display(Name = "Jméno")]
         [Required]
         [StringLength(50)]
         public string FirstName { get; set; }
-
+        [Display(Name = "Příjmení")]
         [Required]
         [StringLength(50)]
         public string SurName { get; set; }
