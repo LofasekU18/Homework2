@@ -25,6 +25,12 @@ namespace soundyyard.club.web.Models
             return userIdentity;
         }
     }
+    public class ApplicationRole : IdentityRole
+    {
+        [Required]
+        [StringLength(50)]
+        public string Agreement { get; set; }
+    }
 
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -33,10 +39,12 @@ namespace soundyyard.club.web.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+        public DbSet<ApplicationRole> ApplicationRoles { get; set; }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
     }
+
 }

@@ -105,5 +105,6 @@ namespace soundyyard.club.web
         {
             return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
+
     }
 }
