@@ -65,6 +65,13 @@ namespace soundyyard.club.web.Models
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(50)]
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string SurName { get; set; }
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
