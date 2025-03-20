@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace soundyard.club.Models
+namespace soundyyard.club.web.Models
 {
     public class ExternalLoginConfirmationViewModel
     {

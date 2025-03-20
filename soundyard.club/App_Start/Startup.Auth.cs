@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using soundyard.club.Models;
+using soundyyard.club.web.Models;
 
-namespace soundyard.club
+namespace soundyyard.club.web
 {
     public partial class Startup
     {

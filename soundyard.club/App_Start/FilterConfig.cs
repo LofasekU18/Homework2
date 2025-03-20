@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace soundyard.club
+namespace soundyyard.club.web
 {
     public class FilterConfig
     {

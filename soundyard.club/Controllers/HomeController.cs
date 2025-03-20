@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace soundyard.club.Controllers
+namespace soundyyard.club.web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()
