@@ -86,10 +86,14 @@ namespace club.soundyard.web.Controllers
                 ModelState.AddModelError("", "Neautorizovany email");
                 return View(model);
             }
-            var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
+            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            //var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            //AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
 
             return RedirectToLocal(returnUrl);
+
+            
+            //MYTODO : uklidit
             //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
             //{
             //    var user = await UserManager.FindByNameAsync(model.Email);
