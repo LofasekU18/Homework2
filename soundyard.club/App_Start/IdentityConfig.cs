@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using soundyyard.club.web.Models;
+using club.soundyard.web.Models;
 
-namespace soundyyard.club.web
+namespace club.soundyard.web
 {
     public class EmailService : IIdentityMessageService
     {

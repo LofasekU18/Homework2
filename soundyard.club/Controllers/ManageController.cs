@@ -6,9 +6,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using soundyyard.club.web.Models;
+using club.soundyard.web.Models;
 
-namespace soundyyard.club.web.Controllers
+namespace club.soundyard.web.Controllers
 {
     [Authorize]
     public class ManageController : Controller

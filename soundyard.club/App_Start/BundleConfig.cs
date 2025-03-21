@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace soundyyard.club.web
+namespace club.soundyard.web
 {
     public class BundleConfig
     {

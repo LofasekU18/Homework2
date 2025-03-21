@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace soundyyard.club.web.Controllers
+namespace club.soundyard.web.Controllers
 {
     [Authorize]
     public class HomeController : Controller
