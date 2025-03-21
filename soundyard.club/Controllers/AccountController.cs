@@ -78,13 +78,13 @@ namespace club.soundyard.web.Controllers
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                ModelState.AddModelError("", "Neexistujici email");
+                ModelState.AddModelError("", "Non-existent email");
                 return View(model);
             }
 
             if (!user.EmailConfirmed)
             {
-                ModelState.AddModelError("", "Neautorizovany email");
+                ModelState.AddModelError("", "Unauthorized email");
                 return View(model);
             }
             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
