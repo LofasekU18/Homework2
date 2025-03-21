@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using club.soundyard.web.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace club.soundyard.web.Controllers
 {
@@ -22,7 +23,7 @@ namespace club.soundyard.web.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +35,9 @@ namespace club.soundyard.web.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -73,24 +74,57 @@ namespace club.soundyard.web.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, "bypass", false, shouldLockout: false);
-            switch (result)
+            var user = await UserManager.FindByEmailAsync(model.Email);
+            if (user == null)
             {
-                
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", result.ToString());
-
-                    return View(model);
+                ModelState.AddModelError("", "Neexistujici email");
+                return View(model);
             }
+
+            if (!user.EmailConfirmed)
+            {
+                ModelState.AddModelError("", "Neautorizovany email");
+                return View(model);
+            }
+            var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
+
+            return RedirectToLocal(returnUrl);
+            //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+            //{
+            //    var user = await UserManager.FindByNameAsync(model.Email);
+            //    if (!ModelState.IsValid && !user.EmailConfirmed)
+            //    {
+            //        return RedirectToLocal(returnUrl);
+            //    }
+            //    if (ModelState.IsValid && user==null)
+            //    {
+            //        ModelState.AddModelError("", "Neautorizovany email");
+            //        return View(model);
+            //    }
+
+            //    else
+            //    {
+            //        return RedirectToLocal(returnUrl);
+            //    }
+            //    // This doesn't count login failures towards account lockout
+            //    // To enable password failures to trigger account lockout, change to shouldLockout: true
+            //    var result = await SignInManager.PasswordSignInAsync(model.Email, "bypass", false, shouldLockout: false);
+            //switch (result)
+            //{
+
+            //    case SignInStatus.Success:
+
+            //    case SignInStatus.LockedOut:
+            //        return View("Lockout");
+            //    case SignInStatus.RequiresVerification:
+            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+            //    case SignInStatus.Failure:
+            //    default:
+            //        ;
+
+            //        return View(model);
+            //}
         }
 
         //
@@ -122,7 +156,7 @@ namespace club.soundyard.web.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -154,10 +188,10 @@ namespace club.soundyard.web.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, SurName = model.SurName };
-                var result = await UserManager.CreateAsync(user, "bypass");
+                var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
