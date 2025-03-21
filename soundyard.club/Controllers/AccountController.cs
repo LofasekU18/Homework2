@@ -87,53 +87,12 @@ namespace club.soundyard.web.Controllers
                 return View(model);
             }
             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-            //var identity = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-            //AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, identity);
+
 
             return RedirectToLocal(returnUrl);
 
 
-            //MYTODO : uklidit
-            //public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
-            //{
-            //    var user = await UserManager.FindByNameAsync(model.Email);
-            //    if (!ModelState.IsValid && !user.EmailConfirmed)
-            //    {
-            //        return RedirectToLocal(returnUrl);
-            //    }
-            //    if (ModelState.IsValid && user==null)
-            //    {
-            //        ModelState.AddModelError("", "Neautorizovany email");
-            //        return View(model);
-            //    }
-
-            //    else
-            //    {
-            //        return RedirectToLocal(returnUrl);
-            //    }
-            //    // This doesn't count login failures towards account lockout
-            //    // To enable password failures to trigger account lockout, change to shouldLockout: true
-            //    var result = await SignInManager.PasswordSignInAsync(model.Email, "bypass", false, shouldLockout: false);
-            //switch (result)
-            //{
-
-            //    case SignInStatus.Success:
-
-            //    case SignInStatus.LockedOut:
-            //        return View("Lockout");
-            //    case SignInStatus.RequiresVerification:
-            //        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-            //    case SignInStatus.Failure:
-            //    default:
-            //        ;
-
-            //        return View(model);
-            //}
         }
-
-        //
-       
-        //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
