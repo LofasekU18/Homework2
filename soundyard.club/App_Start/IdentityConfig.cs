@@ -23,54 +23,56 @@ namespace club.soundyard.web
     public class EmailService : IIdentityMessageService
     {
 
-        private readonly string smtpServer;
-        private readonly int smtpPort;
-        private readonly string smtpUsername;
-        private readonly string smtpPassword;
-        private readonly bool enableSsl;
+        private string smtpServer;
+        private int smtpPort;
+        private string smtpUsername;
+        private string smtpPassword;
+        private bool enableSsl;
 
         public EmailService()
         {
             smtpServer = ConfigurationManager.AppSettings["SmtpServer"];
-            smtpPort = int.Parse(ConfigurationManager.AppSettings["SmtpPort"]);
+            smtpPort = string.IsNullOrEmpty(ConfigurationManager.AppSettings["SmtpPort"]) ? 25 : int.Parse(ConfigurationManager.AppSettings["SmtpPort"]);
             smtpUsername = ConfigurationManager.AppSettings["SmtpUsername"];
             smtpPassword = ConfigurationManager.AppSettings["SmtpPassword"];
-            enableSsl = bool.Parse(ConfigurationManager.AppSettings["EnableSsl"]);
+            enableSsl = bool.TryParse(ConfigurationManager.AppSettings["EnableSsl"], out bool ssl) && ssl;
         }
 
         public async Task SendAsync(IdentityMessage message)
         {
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("", smtpUsername));
-
-
             emailMessage.To.Add(new MailboxAddress("", message.Destination));
             emailMessage.Subject = message.Subject;
-
 
             var bodyBuilder = new BodyBuilder { HtmlBody = message.Body };
             emailMessage.Body = bodyBuilder.ToMessageBody();
 
-
             using (var smtpClient = new SmtpClient())
             {
-                await smtpClient.ConnectAsync(smtpServer, smtpPort, useSsl: true);
-                await smtpClient.AuthenticateAsync(smtpUsername, smtpPassword);
+                bool useSsl = enableSsl;
+
+                if (string.IsNullOrEmpty(smtpUsername) || string.IsNullOrEmpty(smtpPassword))
+                {
+                    useSsl = false;
+                    smtpUsername = null;
+                    smtpPassword = null;
+                }
+
+                await smtpClient.ConnectAsync(smtpServer, smtpPort, useSsl);
+
+                if (!string.IsNullOrEmpty(smtpUsername) && !string.IsNullOrEmpty(smtpPassword))
+                {
+                    await smtpClient.AuthenticateAsync(smtpUsername, smtpPassword);
+                }
+
                 await smtpClient.SendAsync(emailMessage);
+
                 await smtpClient.DisconnectAsync(true);
             }
         }
     }
-    //public class SmsService : IIdentityMessageService
-    //{
-    //    public Task SendAsync(IdentityMessage message)
-    //    {
-    //        // Plug in your SMS service here to send a text message.
-    //        return Task.FromResult(0);
-    //    }
-    //}
 
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store)

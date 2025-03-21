@@ -58,6 +58,10 @@ namespace club.soundyard.web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.LayoutType = "Login";
             return View();
@@ -116,7 +120,7 @@ namespace club.soundyard.web.Controllers
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, "user");
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    
                     try
                     {
                         string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -146,7 +150,7 @@ namespace club.soundyard.web.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                return RedirectToAction("General","Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
             ViewBag.LayoutType = "Confirm";

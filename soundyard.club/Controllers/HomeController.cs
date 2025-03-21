@@ -31,38 +31,31 @@ namespace club.soundyard.web.Controllers
 
             using (var db = new ApplicationDbContext())
             {
-                var userId = User.Identity.GetUserId(); 
+                var userId = User.Identity.GetUserId();
                 var user = await UserManager.FindByIdAsync(userId);
                 var roles = await UserManager.GetRolesAsync(userId);
                 foreach (var roleName in roles)
                 {
-                    // Check the role in ApplicationRoles table
                     var data = await db.ApplicationRoles.FirstOrDefaultAsync(r => r.Name == roleName);
                     if (data != null)
                     {
-                        ViewBag.RoleDescription = data.Agreement; // Access custom property
-                        break; // Exit loop once role data is found, assuming one role should suffice
+                        ViewBag.RoleDescription = data.Agreement;
+                        break;
                     }
                     else
                         ViewBag.RoleDescription = "Without role";
                 }
-                // Query your database
-                // Pass data to your view
             }
             return View();
         }
 
         public ActionResult Report()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
         public ActionResult Administrace()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }
