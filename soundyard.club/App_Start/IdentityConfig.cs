@@ -43,15 +43,15 @@ namespace club.soundyard.web
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("", smtpUsername));
 
-            
+
             emailMessage.To.Add(new MailboxAddress("", message.Destination));
             emailMessage.Subject = message.Subject;
 
-            
+
             var bodyBuilder = new BodyBuilder { HtmlBody = message.Body };
             emailMessage.Body = bodyBuilder.ToMessageBody();
 
-            
+
             using (var smtpClient = new SmtpClient())
             {
                 await smtpClient.ConnectAsync(smtpServer, smtpPort, useSsl: true);
