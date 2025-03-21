@@ -27,9 +27,15 @@ namespace club.soundyard.web.Models
     }
     public class ApplicationRole : IdentityRole
     {
-        [Required]
+        
         [StringLength(50)]
         public string Agreement { get; set; }
+        public ApplicationRole() : base() { }
+
+        public ApplicationRole(string roleName, string agreement) : base(roleName)
+        {
+            this.Agreement = agreement;
+        }
     }
 
 

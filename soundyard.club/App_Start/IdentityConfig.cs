@@ -11,13 +11,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using club.soundyard.web.Models;
-
 using MailKit.Net.Smtp;
 using MimeKit;
-
 using System.Net.Http;
 using System.Threading;
-
 using System.Web.Services.Description;
 using System.Configuration;
 
@@ -46,15 +43,15 @@ namespace club.soundyard.web
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress("", smtpUsername));
 
-            // Add recipient email (empty string for display name)
+            
             emailMessage.To.Add(new MailboxAddress("", message.Destination));
             emailMessage.Subject = message.Subject;
 
-            // Set the email body (the message body)
+            
             var bodyBuilder = new BodyBuilder { HtmlBody = message.Body };
             emailMessage.Body = bodyBuilder.ToMessageBody();
 
-            // Use MailKit to send the email
+            
             using (var smtpClient = new SmtpClient())
             {
                 await smtpClient.ConnectAsync(smtpServer, smtpPort, useSsl: true);

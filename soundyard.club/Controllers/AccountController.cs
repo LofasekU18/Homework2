@@ -195,6 +195,7 @@ namespace club.soundyard.web.Controllers
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await UserManager.AddToRoleAsync(user.Id, "user");
                     //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     try
                     {
