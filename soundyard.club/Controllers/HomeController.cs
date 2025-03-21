@@ -52,14 +52,14 @@ namespace club.soundyard.web.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Report()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Administrace()
         {
             ViewBag.Message = "Your contact page.";
 

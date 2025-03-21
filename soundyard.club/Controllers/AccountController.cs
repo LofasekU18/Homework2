@@ -59,6 +59,7 @@ namespace club.soundyard.web.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.LayoutType = "Login";
             return View();
         }
 
@@ -97,6 +98,7 @@ namespace club.soundyard.web.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.LayoutType = "Register";
             return View();
         }
 
@@ -147,6 +149,7 @@ namespace club.soundyard.web.Controllers
                 return View("Error");
             }
             var result = await UserManager.ConfirmEmailAsync(userId, code);
+            ViewBag.LayoutType = "Confirm";
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
