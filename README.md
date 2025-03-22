@@ -13,3 +13,10 @@ Set up SMPT in WebConfig
 <add key="SmtpPassword" value="" />
 <add key="EnableSsl" value="" />
 ```
+Import sy_club db to local MSSQL
+
+Test accounts:
+```bash
+lstrnad13@gmail.com
+pokusomyl007@email.cz
+```
